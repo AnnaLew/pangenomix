@@ -17,6 +17,8 @@ import pandas as pd
 import scipy.sparse, scipy.optimize, scipy.stats
 import statsmodels.stats
 
+import sys
+sys.path.append('/data/leuven/350/vsc35094/pangenomix')
 import pangenomix.sparse_utils
 
 def fit_heaps_by_iteration(df_pan_core):
@@ -398,7 +400,7 @@ def compute_beta_binomial_core_genome(df_genes, frac_recovered=0.999, df_counts=
     return df_fit_results
 
 
-def run_mlst(fna_paths, output_file, n_jobs=1, mlst_path='../tools/mlst/bin/mlst', env=None):
+def run_mlst(fna_paths, output_file, n_jobs=1, mlst_path='/data/leuven/350/vsc35094/miniconda3/envs/integrated-project-env/bin/mlst', env=None):
     '''
     Wrapper for https://github.com/tseemann/mlst, allowing parallel jobs
     
