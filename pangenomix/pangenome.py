@@ -387,6 +387,23 @@ def consolidate_seqs(genome_paths, nr_out, shared_headers_out, missing_headers_o
                 
     return non_redundant_seq_hashes, missing_headers
         
+def list_faa_files(directory_path):
+    """
+    List FAA files in a given directory and return the file paths.
+
+    Parameters:
+    directory_path (str): Path to the directory containing FAA files.
+
+    Returns:
+    list: A list of FAA file paths in the specified directory.
+    """
+    # List all files in the directory
+    all_files = os.listdir(directory_path)
+
+    # Filter the list to include only FAA files (files with the .faa extension)
+    faa_files = [os.path.join(directory_path, filename) for filename in all_files if filename.endswith(".faa")]
+
+    return faa_files
                 
 def cluster_with_cdhit(fasta_file, cdhit_out, cdhit_args={'-n':5, '-c':0.8}):
     '''
@@ -407,7 +424,7 @@ def cluster_with_cdhit(fasta_file, cdhit_out, cdhit_args={'-n':5, '-c':0.8}):
         Dictionary of alignment arguments to be provided to CD-Hit, other than
         -i, -o, and -d. Default is for FAA files. (default {'-n':5, '-c':0.8})
     ''' 
-    cdhit_prog = 'cdhit-est' if fasta_file[-4:].lower() == '.fna' else 'cdhit'
+    cdhit_prog = 'cd-hit-est' if fasta_file[-4:].lower() == '.fna' else 'cd-hit'
     args = [cdhit_prog, '-i', fasta_file, '-o', cdhit_out, '-d', '0']
     for arg in cdhit_args:
         args += [arg, str(cdhit_args[arg])]

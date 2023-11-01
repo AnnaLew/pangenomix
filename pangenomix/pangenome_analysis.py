@@ -399,8 +399,7 @@ def compute_beta_binomial_core_genome(df_genes, frac_recovered=0.999, df_counts=
         return df_fit_results.iloc[0,:]
     return df_fit_results
 
-
-def run_mlst(fna_paths, output_file, n_jobs=1, mlst_path='/data/leuven/350/vsc35094/miniconda3/envs/integrated-project-env/bin/mlst', env=None):
+def run_mlst(fna_paths, output_file, n_jobs=1, mlst_path='/data/leuven/350/vsc35094/miniconda3/envs/integrated-project-env/bin/mlst', env='integrated-project-env'):
     '''
     Wrapper for https://github.com/tseemann/mlst, allowing parallel jobs
     
@@ -418,9 +417,25 @@ def run_mlst(fna_paths, output_file, n_jobs=1, mlst_path='/data/leuven/350/vsc35
         Environment to spawn MLST processes, such as that generated
         by os.environ.copy(), or None for default (default None).
     '''
+
+    # Specify the directory path
+    directory_path = fna_paths
+    print(directory_path)
+
+    # Use list comprehension to create a list of file paths
+    file_paths = [os.path.join(directory_path, filename) for filename in os.listdir(directory_path)]
+
+    # Filter out subdirectories, if any
+    file_paths = [file_path for file_path in file_paths if os.path.isfile(file_path)]
+
+    fna_paths = file_paths
+
     fna_path_args = [(x, mlst_path, env) for x in fna_paths]
+    print("\ndone0")
     with open(output_file, 'wb') as f:
+        print("\ndone1")
         if n_jobs > 1: # parallel jobs
+            print("\nn_jobs")
             p = mp.Pool(processes=n_jobs)
             outputs = p.map(run_mlst_single, fna_path_args)
             for output in outputs:
@@ -492,3 +507,10 @@ def betabin_logpmf(x, n, a, b):
     k = np.floor(x)
     combiln = -np.log(n + 1) - betaln(n - k + 1, k + 1)
     return combiln + betaln(k + a, n - k + b) - betaln(a, b)
+
+def test(repetitions = 2):
+    for _ in range(repetitions):
+        print("Success!")
+
+def my_function(fname):
+  print(fname + " Refsnes")
