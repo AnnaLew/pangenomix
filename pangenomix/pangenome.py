@@ -315,6 +315,23 @@ def build_noncoding_pangenome(genome_data, output_dir, name='Test', flanking=(0,
         df_nc_genes.to_pickle(output_gene_pickle)
     return df_nc_alleles, df_nc_genes
     
+def find_matching_genome_files(gff_dir, fna_dir):
+    # Get a list of GFF files and FNA files in the directories
+    gff_files = [f for f in os.listdir(gff_dir) if f.endswith('.gff')]
+    fna_files = [f for f in os.listdir(fna_dir) if f.endswith('.fna')]
+
+    # Create a dictionary to store GFF file names (excluding extensions) as keys
+    # and their full paths as values
+    gff_dict = {os.path.splitext(f)[0]: os.path.join(gff_dir, f) for f in gff_files}
+
+    # Iterate through FNA files and find matching GFF files based on base names
+    matching_files = []
+    for fna_file in fna_files:
+        base_name = os.path.splitext(fna_file)[0]
+        if base_name in gff_dict:
+            matching_files.append((gff_dict[base_name], os.path.join(fna_dir, fna_file)))
+
+    return matching_files
 
 def consolidate_seqs(genome_paths, nr_out, shared_headers_out, missing_headers_out=None):
     ''' 
@@ -1206,22 +1223,24 @@ def extract_noncoding(genome_gff, genome_fna, noncoding_out, flanking=(0,0),
                     stop = int(stop)
                     
                     if feature_type in allowed_features: 
-                        ''' Get noncoding feature sequence and ID '''
-                        contig_seq = contigs[contig]
-                        fstart = start - 1 - flanking[0]
-                        fstart = max(0,fstart) # avoid looping due to contig boundaries
-                        fstop = stop + flanking[1]
-                        feature_seq = contig_seq[fstart:fstop]
-                        if strand == '-': # negative strand
-                            feature_seq = reverse_complement(feature_seq)
-                        meta_key_vals = map(lambda x: x.split('='), meta.split(';'))
-                        metadata = {x[0]:x[1] for x in meta_key_vals}
-                        feature_id = metadata['ID']
-                        
-                        ''' Save to output file '''
-                        feature_seq = '\n'.join(feature_seq[i:i+70] for i in range(0, len(feature_seq), 70))
-                        f_noncoding.write('>' + feature_id + '\n')
-                        f_noncoding.write(feature_seq + '\n') 
+                        ''' Check if contig exists in the dictionary '''
+                        if contig in contigs:
+                            ''' Get noncoding feature sequence and ID '''
+                            contig_seq = contigs[contig]
+                            fstart = start - 1 - flanking[0]
+                            fstart = max(0,fstart) # avoid looping due to contig boundaries
+                            fstop = stop + flanking[1]
+                            feature_seq = contig_seq[fstart:fstop]
+                            if strand == '-': # negative strand
+                                feature_seq = reverse_complement(feature_seq)
+                            meta_key_vals = map(lambda x: x.split('='), meta.split(';'))
+                            metadata = {x[0]:x[1] for x in meta_key_vals}
+                            feature_id = metadata['ID']
+                            
+                            ''' Save to output file '''
+                            feature_seq = '\n'.join(feature_seq[i:i+70] for i in range(0, len(feature_seq), 70))
+                            f_noncoding.write('>' + feature_id + '\n')
+                            f_noncoding.write(feature_seq + '\n') 
 
     
 def validate_gene_table(df_genes, df_alleles, log_group=1):
