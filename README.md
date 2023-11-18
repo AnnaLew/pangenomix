@@ -85,11 +85,7 @@ You might have to type python3 instead of python
 ### Import necessary modules
 
 ```python
-import pangenome_analysis
-import pangenome
-import manage_extensions
-from pangenome import find_matching_genome_files, build_noncoding_pangenome
-from manage_extensions import change_url_extensions, rename_files_with_extension
+import pangenome_analysis, pangenome, manage_extensions; from pangenome import find_matching_genome_files, build_noncoding_pangenome; from manage_extensions import change_url_extensions, rename_files_with_extension
 ```
 
 ### Generate a list of URLs with .PATRIC.gff extensions
@@ -136,8 +132,42 @@ Notice that here I had to create the exact output directory, no new folders will
 build_noncoding_pangenome(genome_data=matching_files, output_dir="/path/to/cd-hit-output/non-coding/50_bactero_noncoding", name="50bactero")
 ```
 
+# Fit Heaps Law
 
+### Start a python session
 
+```bash
+python
+```
+You might have to type python3 instead of python
+
+### Import necessary modules
+
+```python
+import pangenome_analysis, sparse_utils; from pangenome_analysis import estimate_pan_core_size; from pangenome_analysis import fit_heaps_by_iteration
+```
+
+### Read the gene.npz file
+
+```python
+df_genes = sparse_utils.read_lsdf("path/to/gene.npz")
+```
+
+### Create df_pan_core 
+
+df_pan_core is a DataFrame with pangenome + core genome size curve estimates as columns, iterations as index.
+
+Side note: we can experiment with different numbers here, the number stands for the number of randomizations. 
+
+```python
+df_pan_core=estimate_pan_core_size(df_genes, 1)
+```
+
+### Fit Heaps Law to each iteration
+
+```python
+fit_heaps = fit_heaps_by_iteration(df_pan_core)
+```
 
 
 
