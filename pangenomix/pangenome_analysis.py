@@ -71,7 +71,7 @@ def estimate_pan_core_size(df_genes, num_iter, log_batch=-1):
     '''
     num_genes, num_strains = df_genes.shape
     print('Converting DataFrame to matrix...')
-    gene_data = pangenomix.sparse_utils.sparse_arrays_to_spmatrix(df_genes)
+    gene_data = df_genes.data
     gene_data = gene_data.T.tocsr() # now strain x cluster
     pan_genomes = np.zeros((num_iter, num_strains)) # estimated pan-genome curve per iteration
     core_genomes = np.zeros((num_iter, num_strains)) # estimated core-genome curve per iteration
