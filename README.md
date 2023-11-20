@@ -170,6 +170,17 @@ fit_heaps = fit_heaps_by_iteration(df_pan_core)
 
 ## Prepare input fasta file
 
+### Important note
+
+You might run into issues if you don't have some libraries installed, so you might want to pip install them beforehand. 
+
+```bash
+pip install numpy
+pip install pandas
+pip install Bio
+pip install ast
+```
+
 ### Start a python session
 
 ```bash
