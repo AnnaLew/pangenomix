@@ -165,6 +165,31 @@ df_pan_core=estimate_pan_core_size(df_genes, 1)
 ```python
 fit_heaps = fit_heaps_by_iteration(df_pan_core)
 ```
+# Compute Core genes
+
+### Start a python session
+
+```bash
+python
+```
+You might have to type python3 instead of python
+
+### Import necessary modules
+
+```python
+import pangenome_analysis, sparse_utils; from pangenome_analysis import compute_bernoulli_grid_core_genome; from sparse_utils import LightSparseDataFrame
+```
+### Read npz file and convert it
+
+```python
+df_genes = sparse_utils.read_lsdf("path/to/gene.npz")
+df_genes_dense = LightSparseDataFrame.to_sparse_arrays(df_genes)
+```
+### Compute the core genome
+
+```python
+compute_core_genome = compute_bernoulli_grid_core_genome(df_genes_dense,prob_bounds=(0.8,0.99999999), init_capture_prob=0.9999,init_gene_freqs=None)
+```
 
 # EggNOG-maper
 
