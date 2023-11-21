@@ -323,7 +323,7 @@ class LightSparseDataFrame():
         for c, column in enumerate(self.columns):
             # CSC column -> dense column -> SparseArray
             col_vector = data_csc[:,c].toarray()[:,0]
-            sp_arrays[column] = pd.SparseArray(col_vector)
+            sp_arrays[column] = pd.arrays.SparseArray(col_vector)
             sp_arrays[column].fill_value = np.nan
         return pd.DataFrame(data=sp_arrays, index=self.index)
     
