@@ -13,6 +13,8 @@ export PATH="${VSC_DATA}/miniconda3/bin:${PATH}"
 
 ### Activate the conda environment
 
+You might have to include the full path to the environment. 
+
 ```bash
 conda activate ./integrated-project-env/ 
 ```
