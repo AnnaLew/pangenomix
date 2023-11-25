@@ -337,5 +337,12 @@ Also, have in mind that you need to change the name of output file each time, so
 create_core_genes_fasta(allele_npz_file, allele_npz_label_file, gene_npz_file, gene_npz_label_file, input_faa, genomes_num, output_faa)
 ```
 
+### Count the number of genes in each fasta file
+
+To count the number of genes in each fasta file, you need to go to the location of the fasta file and then use the following command:
+
+```bash
+grep -c "^>" file_core.faa
+```
 
 
