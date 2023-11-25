@@ -344,7 +344,7 @@ def compute_beta_binomial_core_genome(df_genes, frac_recovered=0.999, df_counts=
     ''' Get gene frequency distribution '''
     if df_counts is None:
         n_genes, n_genomes = df_genes.shape
-        gene_mat = pangenomix.sparse_utils.sparse_arrays_to_sparse_matrix(df_genes)
+        gene_mat = pangenomix.sparse_utils.sparse_arrays_to_spmatrix(df_genes)
         df_counts = pd.Series(collections.Counter(np.array(gene_mat.sum(axis=1))[:,0]))
     else:
         n_genomes = max(df_counts.index)
