@@ -257,7 +257,85 @@ After the job finishes running, download the csv and excel files.
 
 ![image](https://github.com/AnnaLew/pangenomix/assets/57362758/3e897ab9-a597-4a9c-8692-aabd2dee60d7)
 
+# Core and accessory genome 
 
+This code will allow you to extract the core and accessory pangenomes 
+
+### Important note
+
+You might run into issues if you don't have some libraries installed, so you might want to pip install them beforehand. 
+
+```bash
+pip install numpy
+pip install pandas
+pip install Bio
+pip install ast
+```
+
+### Start a python session
+
+```bash
+python
+```
+You might have to type python3 instead of python
+
+### Import necessary modules
+
+```python
+import core_genome; from core_genome import create_core_genes_fasta 
+```
+
+### Define all input files
+
+Make sure to specify the directory for the output file, sorry for this, it is just the first version, so it's not perfect. 
+
+```python
+allele_npz_file = "path/to/allele.npz" 
+
+allele_npz_label_file = "path/to/allele.npz.labels.txt"
+
+gene_npz_file = "path/to/gene.npz"
+
+gene_npz_label_file = "path/to/gene.npz.labels.txt"
+
+input_faa = "path/to/nr.faa"
+
+genomes_num = number_of_your_genomes
+
+output_faa = "path/to/_core.faa " 
+```
+
+### Very important note
+
+genomes_num variable allows you to decide what in which percentage of genomes you want your genomes to be found. E.g. if you consider core genes the genes present in all the genomes, then set it to 400 in case you have 400 genomes and to 50 in case you have 50 genomes. In our case I want you to run it for the numbers/percentages below.
+
+For 50 genome set:
+
+* 100% - 50
+* 98% - 49
+* 96% - 48 
+* 94% - 47
+* 16% - 8
+
+For 400 genome set:
+
+* 100% - 400
+* 99% - 396
+* 98% - 392
+* 96% - 384
+* 95% - 380
+* 94% - 376
+* 16% - 64
+* 15% - 60
+
+Also, have in mind that you need to change the name of output file each time, so that you keep track of the percentages.
+
+
+### Create the fasta file
+
+```python
+create_core_genes_fasta(allele_npz_file, allele_npz_label_file, gene_npz_file, gene_npz_label_file, input_faa, genomes_num, output_faa)
+```
 
 
 
