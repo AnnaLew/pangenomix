@@ -167,6 +167,13 @@ df_pan_core=estimate_pan_core_size(df_genes, 1)
 ```python
 fit_heaps = fit_heaps_by_iteration(df_pan_core)
 ```
+### Export the result to csv
+
+```python
+df_pan_core.to_csv("path/to/.csv")
+fit_heaps.to_csv("path/to/.csv")
+```
+
 # Compute Core genes
 
 ### Start a python session
