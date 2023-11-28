@@ -167,6 +167,15 @@ df_pan_core=estimate_pan_core_size(df_genes, 1)
 ```python
 fit_heaps = fit_heaps_by_iteration(df_pan_core)
 ```
+
+### Calculate the Mean of 100 iterations
+Do this immediately after iterations as each time a new run will give different results.
+```python
+import Mean; from Mean import calculate_mean
+output_csv = "path/to/.csv"
+calculate_mean(df_pan_core, output_csv)
+```
+
 ### Export the result to csv
 
 ```python
