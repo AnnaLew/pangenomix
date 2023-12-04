@@ -131,7 +131,7 @@ Notice that here I had to create the exact output directory, no new folders will
 build_noncoding_pangenome(genome_data=matching_files, output_dir="/path/to/cd-hit-output/non-coding/50_bactero_noncoding", name="50bactero")
 ```
 
-# Fit Heaps Law
+# Fit Heaps Law and plot the pangenome
 
 ### Start a python session
 
@@ -163,7 +163,7 @@ Side note: we can experiment with different numbers here, the number stands for 
 df_pan_core=estimate_pan_core_size(df_genes, 100)
 ```
 
-### Calculate the Mean of 100 iterations
+### Calculate the Mean of 100 iterations and plot
 Do this immediately after iterations as each time a new run will give different results.
 ```python
 import plot; from plot import calculate_mean
