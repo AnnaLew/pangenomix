@@ -155,29 +155,30 @@ df_genes = sparse_utils.read_lsdf("path/to/gene.npz")
 ### Create df_pan_core 
 
 df_pan_core is a DataFrame with pangenome + core genome size curve estimates as columns, iterations as index.
+Iterations are set to 100 here.
 
 Side note: we can experiment with different numbers here, the number stands for the number of randomizations. 
 
 ```python
-df_pan_core=estimate_pan_core_size(df_genes, 1)
-```
-
-### Fit Heaps Law to each iteration
-
-```python
-fit_heaps = fit_heaps_by_iteration(df_pan_core)
+df_pan_core=estimate_pan_core_size(df_genes, 100)
 ```
 
 ### Calculate the Mean of 100 iterations
 Do this immediately after iterations as each time a new run will give different results.
 ```python
-import Mean; from Mean import calculate_mean
-output_csv = "path/to/.csv"
-calculate_mean(df_pan_core, output_csv)
+import plot; from plot import calculate_mean
+Mean = calculate_mean(df_pan_core, jpgName)
+```
+
+### Fit Heaps Law to the mean value of iteration
+
+```python
+fit_heaps = fit_heaps_by_iteration(Mean)
 ```
 
 ### Export the result to csv
-
+Save the result of heaps law!
+Do this if you want to have the results as csv format.
 ```python
 df_pan_core.to_csv("path/to/.csv")
 fit_heaps.to_csv("path/to/.csv")
